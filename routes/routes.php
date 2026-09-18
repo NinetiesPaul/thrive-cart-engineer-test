@@ -5,34 +5,30 @@ use App\Controllers\GeneralController;
 use App\Controllers\CatalogController;
 use App\Controllers\SpecialOfferController;
 
+/** @var \App\Container $container */
+
 //general
 
-SimpleRouter::get('/', function() {
-    $general = new GeneralController;
-    $general->index();
+SimpleRouter::get('/', function () use ($container) {
+    $container->get(GeneralController::class)->index();
 });
 
-SimpleRouter::get('/catalog-ajax', function() {
-    $catalog = new CatalogController;
-    $catalog->getCatalogItemsAjax();
+SimpleRouter::get('/catalog-ajax', function () use ($container) {
+    $container->get(CatalogController::class)->getCatalogItemsAjax();
 });
 
-SimpleRouter::get('/special-offers-ajax', function() {
-    $specialOffer = new SpecialOfferController;
-    $specialOffer->getSpecialOffersAjax();
+SimpleRouter::get('/special-offers-ajax', function () use ($container) {
+    $container->get(SpecialOfferController::class)->getSpecialOffersAjax();
 });
 
-SimpleRouter::get('/special-offers', function() {
-    $specialOffer = new SpecialOfferController;
-    $specialOffer->getSpecialOffers();
+SimpleRouter::get('/special-offers', function () use ($container) {
+    $container->get(SpecialOfferController::class)->getSpecialOffers();
 });
 
-SimpleRouter::post('/special-offers', function() {
-    $specialOffer = new SpecialOfferController;
-    $specialOffer->createSpecialOffer();
+SimpleRouter::post('/special-offers', function () use ($container) {
+    $container->get(SpecialOfferController::class)->createSpecialOffer();
 });
 
-SimpleRouter::delete('/special-offers-delete-ajax/{id}', function($id) {
-    $specialOffer = new SpecialOfferController;
-    $specialOffer->deleteSpecialOfferAjax($id);
+SimpleRouter::delete('/special-offers-delete-ajax/{id}', function ($id) use ($container) {
+    $container->get(SpecialOfferController::class)->deleteSpecialOfferAjax($id);
 });

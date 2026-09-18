@@ -3,17 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\Catalog;
-use App\ResponseHandler;
 use App\Templates;
-use App\Util;
 
 class GeneralController
 {
-    protected $catalogModel;
-
-    public function __construct()
+    public function __construct(protected Catalog $catalogModel)
     {
-        $this->catalogModel = new Catalog();
     }
 
     public function index()

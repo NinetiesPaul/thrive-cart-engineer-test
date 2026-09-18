@@ -6,17 +6,13 @@ use App\Models\Catalog;
 use App\Models\SpecialOffer;
 use App\ResponseHandler;
 use App\Templates;
-use App\Util;
 
 class SpecialOfferController
 {
-    protected $catalogModel;
-    protected $specialOfferModel;
-
-    public function __construct()
-    {
-        $this->catalogModel = new Catalog();
-        $this->specialOfferModel = new SpecialOffer();
+    public function __construct(
+        protected Catalog $catalogModel,
+        protected SpecialOffer $specialOfferModel
+    ) {
     }
 
     public function getSpecialOffersAjax()

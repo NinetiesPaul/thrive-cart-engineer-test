@@ -6,11 +6,8 @@ use PDO;
 
 class Catalog
 {
-    protected $connector;
-
-    public function __construct()
+    public function __construct(protected Connector $connector)
     {
-        $this->connector = new Connector();
     }
 
     public function getCatalog()
