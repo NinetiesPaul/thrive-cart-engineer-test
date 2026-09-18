@@ -8,6 +8,7 @@ This project uses containers with:
 
 - PHP 8.2 with Apache and Composer
 - MySQL 5.7
+- Node (via nvm) for compiling TypeScript under `src/ts/` into `includes/js/`
 
 When developing, a database client such as MySQL Workbench or DBeaver is recommended.
 
@@ -60,4 +61,17 @@ DB_PASSWORD=root
 docker-compose exec php vendor/bin/phinx migrate
 ```
 
-8) You're done! If none of the commands above reported errors, the project is ready. Open `http://localhost:8015` in your browser to use the store.
+8) Compile the TypeScript front-end (runs automatically when you start the `node` service)
+```
+docker-compose up node
+```
+To rebuild after editing files under `src/ts/`:
+```
+docker-compose run --rm node
+```
+To watch and rebuild on save:
+```
+docker-compose run --rm node sh -c "npm install && npm run watch:js"
+```
+
+9) You're done! If none of the commands above reported errors, the project is ready. Open `http://localhost:8015` in your browser to use the store.
