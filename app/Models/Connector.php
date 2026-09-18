@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DB;
+namespace App\Models;
 
 use PDO;
 
-class DB extends PDO
+class Connector extends PDO
 {
     public function __construct()
     {
