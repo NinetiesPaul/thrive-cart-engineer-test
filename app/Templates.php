@@ -63,7 +63,7 @@ class Templates
         $backwards = '';
         for ($i = 1; $i <= $rootUrl; $backwards .= "../", $i++);
 
-        $jsFiles = ['jquery', 'height', 'cart'];
+        $jsFiles = ['jquery', 'height', 'detect'];
         $jsPaths = '';
         foreach ($jsFiles as $jsFile)
         {
