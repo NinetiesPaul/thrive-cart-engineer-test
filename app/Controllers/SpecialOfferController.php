@@ -77,7 +77,7 @@ class SpecialOfferController
 
     public function deleteSpecialOfferAjax($id)
     {
-        $this->specialOfferModel->deleteSpecialOfferAjax($id);
+        $this->specialOfferModel->deleteSpecialOffer($id);
         ResponseHandler::response();
     }
 }
