@@ -4,8 +4,13 @@ uploads/files/
 outros/
 nbproject/
 vendor/
+node_modules/
 includes/php/conn.php
 phinx.yml
 .env
 /.idea/*
 composer.lock
+package-lock.json
+
+includes/js/cart.js
+includes/js/special-offer.js
