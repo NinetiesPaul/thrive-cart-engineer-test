@@ -23,5 +23,17 @@ services:
      - MYSQL_ROOT_PASSWORD=root
      - MYSQL_DATABASE=webschool
 
+  node:
+    container_name: webschool_node
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules_data:/app/node_modules
+    command: sh -c "npm install && npm run build:js"
+
 volumes:
   dbdata:
+  node_modules_data:

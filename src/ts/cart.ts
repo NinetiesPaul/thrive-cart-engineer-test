@@ -1,19 +1,19 @@
-updateCartTotal = () => {
+const updateCartTotal = (): void => {
     $("#cartTableBody").empty();
 
     let orderTotal = 0;
 
     for (const cartKey of Object.keys(cart)) {
-        let lineTotal = 0.00;
-        for (const [key, value] of Object.entries(cart[cartKey])) {
-            let itemPrice = value.price;
+        let lineTotal = 0.0;
+        for (const [, value] of Object.entries(cart[cartKey])) {
+            let itemPrice: number | string = value.price;
             if (value.specialOffer < 1) {
-                itemPrice = itemPrice * value.specialOffer;
+                itemPrice = Number(itemPrice) * value.specialOffer;
             }
 
             itemPrice = String(itemPrice);
-            if (itemPrice.indexOf('.') !== -1) {
-                itemPrice = itemPrice.substring(0, itemPrice.indexOf('.') + 3);
+            if (itemPrice.indexOf(".") !== -1) {
+                itemPrice = itemPrice.substring(0, itemPrice.indexOf(".") + 3);
             }
 
             lineTotal += parseFloat(itemPrice);
@@ -22,8 +22,12 @@ updateCartTotal = () => {
 
         let specialOfferText = "";
         if (Object.keys(itemsOnSpecialOffer).includes(cartKey)) {
-            let itemDiscountRate = itemsOnSpecialOffer[cartKey].discountRate*100;
-            specialOfferText = itemDiscountRate + "% off on every " + itemsOnSpecialOffer[cartKey].onEveryNItems + " items like this!";
+            const itemDiscountRate = itemsOnSpecialOffer[cartKey].discountRate * 100;
+            specialOfferText =
+                itemDiscountRate +
+                "% off on every " +
+                itemsOnSpecialOffer[cartKey].onEveryNItems +
+                " items like this!";
         }
 
         $("#cartTableBody").append(`
@@ -47,71 +51,73 @@ updateCartTotal = () => {
 
     $("#shipping").text(`$${shipping.toFixed(2)}`);
     $("#cartTotal").text(`$${(orderTotal + shipping).toFixed(2)}`);
-}
+};
 
-checkIfProductIsOnSpecialOffer = (code) => {
-    let specialOfferRate = 1
+const checkIfProductIsOnSpecialOffer = (code: string): number => {
+    let specialOfferRate = 1;
     if (Object.keys(itemsOnSpecialOffer).includes(code)) {
         if ((cart[code].length + 1) % itemsOnSpecialOffer[code].onEveryNItems == 0) {
             specialOfferRate = itemsOnSpecialOffer[code].discountRate;
         }
     }
     return specialOfferRate;
-}
+};
 
-addProductToCart = (method, code) => {
-
+const addProductToCart = (method: AddToCartMethod, code: string): void => {
     if (method == "increaseQuantityButton") {
-        let clonedProduct = {...catalogItems[code]};
-        clonedProduct.specialOffer = checkIfProductIsOnSpecialOffer(code);
+        const clonedProduct: CartItem = {
+            ...catalogItems[code],
+            specialOffer: checkIfProductIsOnSpecialOffer(code),
+        };
         cart[code].push(clonedProduct);
-    } else  {
+    } else {
         if (!Object.keys(cart).includes(code)) {
-            cart[code] = [{
-                specialOffer: 1,
-                ...catalogItems[code]
-            }];
+            cart[code] = [
+                {
+                    specialOffer: 1,
+                    ...catalogItems[code],
+                },
+            ];
         } else {
             cart[code].push({
                 specialOffer: checkIfProductIsOnSpecialOffer(code),
-                ...catalogItems[code]
+                ...catalogItems[code],
             });
         }
     }
-}
+};
 
-getCatalogItems = () => {
+const getCatalogItems = (): void => {
     $.ajax({
         url: "/catalog-ajax",
         type: "GET",
-        success: function(response) {
-            response = JSON.parse(response);
-            if (response.error) {
-                console.log("Error: " + response.data);
+        success: function (response: string) {
+            const parsed = JSON.parse(response) as ApiResponse<CatalogItems>;
+            if (parsed.error) {
+                console.log("Error: " + parsed.data);
             } else {
-                catalogItems = response.data;
+                catalogItems = parsed.data;
             }
-        }
+        },
     });
-}
+};
 
-getSpecialOffers = () => {
+const getSpecialOffers = (): void => {
     $.ajax({
         url: "/special-offers-ajax",
         type: "GET",
-        success: function(response) {
-            response = JSON.parse(response);
-            if (response.error) {
-                console.log("Error: " + response.data);
+        success: function (response: string) {
+            const parsed = JSON.parse(response) as ApiResponse<SpecialOffers>;
+            if (parsed.error) {
+                console.log("Error: " + parsed.data);
             } else {
-                itemsOnSpecialOffer = response.data;
+                itemsOnSpecialOffer = parsed.data;
             }
-        }
+        },
     });
-}
+};
 
-$(document).ready(function(){
-
+$(document).ready(function () {
     getCatalogItems();
 
     getSpecialOffers();
@@ -122,17 +128,17 @@ $(document).ready(function(){
 
     window.catalogItems = {};
 
-    $(".product").click(function(){
-        var productData = $(this).data("product-data");
+    $(".product").click(function () {
+        const productData = $(this).data("product-data") as CatalogItem;
 
         addProductToCart("addToCartButton", productData.code);
 
         updateCartTotal();
     });
 
-    $("#cartTableBody").on("click", ".decreaseQuantity", function(e){
+    $("#cartTableBody").on("click", ".decreaseQuantity", function (e: JQuery.ClickEvent) {
         e.preventDefault();
-        var productCode = $(this).data("code");
+        const productCode = String($(this).data("code"));
 
         cart[productCode].pop();
         if (cart[productCode].length == 0) {
@@ -142,9 +148,9 @@ $(document).ready(function(){
         updateCartTotal();
     });
 
-    $("#cartTableBody").on("click", ".increaseQuantity", function(e){
+    $("#cartTableBody").on("click", ".increaseQuantity", function (e: JQuery.ClickEvent) {
         e.preventDefault();
-        var productCode = $(this).data("code");
+        const productCode = String($(this).data("code"));
 
         addProductToCart("increaseQuantityButton", productCode);
 
