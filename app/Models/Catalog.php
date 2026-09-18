@@ -10,7 +10,7 @@ class Catalog
     {
     }
 
-    public function getCatalog()
+    public function getCatalog(): array
     {
         $products = $this->connector->query("SELECT * FROM catalog");
         return $products->fetchAll(PDO::FETCH_OBJ);

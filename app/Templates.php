@@ -13,19 +13,19 @@ class Templates
         echo $this->parseTemplate($template, $args);
     }
 
-    protected function getTemplate($template, $folder = "web/")
+    protected function getTemplate($template, $folder = "web/"): string
     {
         $arqTemp = $folder.$template;
         $content = '';
 
         if (is_file($arqTemp)) {
-            $content = file_get_contents($arqTemp);
+            $content = file_get_contents($arqTemp) ?: '';
         }
 
         return $content;
     }
     
-    protected function parseTemplate($template, $array)
+    protected function parseTemplate($template, $array): string
     {
         foreach ($array as $a => $b) {
             if (strpos($a, 'list')) {
@@ -38,7 +38,7 @@ class Templates
         return $template;
     }
 
-    protected function generateCss()
+    protected function generateCss(): string
     {
         $rootUrl = substr(url(), 0, strlen(url()) - 1);
         $rootUrl = count(explode("/", $rootUrl)) - 2;
@@ -55,7 +55,7 @@ class Templates
         return $cssPaths;
     }
 
-    protected function generateJs()
+    protected function generateJs(): string
     {
         $rootUrl = substr(url(), 0, strlen(url()) - 1);
         $rootUrl = count(explode("/", $rootUrl)) - 2;
@@ -72,7 +72,7 @@ class Templates
         return $jsPaths;
     }
 
-    protected function createUrl($url)
+    protected function createUrl($url): string
     {
         return substr(url($url), 0, strlen($url) + 1);
     }

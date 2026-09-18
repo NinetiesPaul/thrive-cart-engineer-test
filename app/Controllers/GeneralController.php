@@ -11,7 +11,7 @@ class GeneralController
     {
     }
 
-    public function index()
+    public function index(): void
     {
         $products = $this->catalogModel->getCatalog();
 

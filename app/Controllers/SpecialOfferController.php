@@ -15,7 +15,7 @@ class SpecialOfferController
     ) {
     }
 
-    public function getSpecialOffersAjax()
+    public function getSpecialOffersAjax(): never
     {
         $specialOffers = $this->specialOfferModel->getSpecialOffers();
 
@@ -30,7 +30,7 @@ class SpecialOfferController
         ResponseHandler::response($specialOffersData);
     }
 
-    public function getSpecialOffers()
+    public function getSpecialOffers(): void
     {
         $specialOffers = $this->specialOfferModel->getSpecialOffers();
 
@@ -62,7 +62,7 @@ class SpecialOfferController
         new Templates('special-offers.html', $args);
     }
 
-    public function createSpecialOffer()
+    public function createSpecialOffer(): never
     {
         $data = json_decode(json_encode($_POST), true);
         $this->specialOfferModel->createSpecialOffer($data);
@@ -71,7 +71,7 @@ class SpecialOfferController
         exit;
     }
 
-    public function deleteSpecialOfferAjax($id)
+    public function deleteSpecialOfferAjax($id): never
     {
         $this->specialOfferModel->deleteSpecialOffer($id);
         ResponseHandler::response();

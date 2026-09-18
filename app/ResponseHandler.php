@@ -4,7 +4,7 @@ namespace App;
 
 class ResponseHandler
 {
-    public static function response($data = null, $isError = false)
+    public static function response($data = null, $isError = false): never
     {
         $response = [
             'error' => $isError,

@@ -11,7 +11,7 @@ class CatalogController
     {
     }
 
-    public function getCatalogItemsAjax()
+    public function getCatalogItemsAjax(): never
     {
         $products = $this->catalogModel->getCatalog();
 

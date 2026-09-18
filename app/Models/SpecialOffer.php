@@ -10,19 +10,19 @@ class SpecialOffer
     {
     }
 
-    public function getSpecialOffers()
+    public function getSpecialOffers(): array
     {
         $specialOffers = $this->connector->query("SELECT c.code, so.discountRate, so.onEveryNItems, so.id  FROM special_offers so JOIN catalog c ON so.catalog_id = c.id");
         return $specialOffers->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getSpecialOfferByCode($code)
+    public function getSpecialOfferByCode($code): object|false
     {
         $specialOffer = $this->connector->query("SELECT so.id, c.code, so.discountRate, so.onEveryNItems  FROM special_offers so JOIN catalog c ON so.catalog_id = c.id WHERE so.catalog_id = $code");
         return $specialOffer->fetch(PDO::FETCH_OBJ);
     }
 
-    public function createSpecialOffer($data)
+    public function createSpecialOffer($data): void
     {
         $specialOffer = $this->getSpecialOfferByCode($data['code']);
         if ($specialOffer) {
@@ -40,7 +40,7 @@ class SpecialOffer
         ]);
     }
 
-    public function deleteSpecialOffer($id)
+    public function deleteSpecialOffer($id): void
     {
         $specialOfferQuery = $this->connector->prepare("DELETE FROM special_offers WHERE id = :id");
         $specialOfferQuery->execute([
