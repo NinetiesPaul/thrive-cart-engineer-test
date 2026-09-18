@@ -72,16 +72,14 @@ addProductToCart = (method, code) => {
 
 getCatalogItems = () => {
     $.ajax({
-        url: "/catalog",
+        url: "/catalog-ajax",
         type: "GET",
         success: function(response) {
             response = JSON.parse(response);
             if (response.error) {
                 console.log("Error: " + response.data);
             } else {
-                for (const item of response.data) {
-                    catalogItems[item.code] = item;
-                }
+                catalogItems = response.data;
             }
         }
     });
@@ -89,7 +87,7 @@ getCatalogItems = () => {
 
 getSpecialOffers = () => {
     $.ajax({
-        url: "/special-offers",
+        url: "/special-offers-ajax",
         type: "GET",
         success: function(response) {
             response = JSON.parse(response);
@@ -97,7 +95,6 @@ getSpecialOffers = () => {
                 console.log("Error: " + response.data);
             } else {
                 itemsOnSpecialOffer = response.data;
-                console.log(response.data);
             }
         }
     });
