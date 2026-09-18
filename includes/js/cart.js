@@ -29,6 +29,7 @@ updateCartTotal = () => {
         $("#cartTableBody").append(`
             <tr>
                 <td>${cart[cartKey][0].name}<br/>
+                <small><i>$${cart[cartKey][0].price} per item</i></small><br/>
                 <small><i>${specialOfferText}</i></small><br/>
                 <a href='#' class='decreaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>-</a> ${cart[cartKey].length}<a href='#' class='increaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>+</a></td><td>$${lineTotal.toFixed(2)}</td>
             </tr>
