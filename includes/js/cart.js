@@ -19,9 +19,18 @@ updateCartTotal = () => {
             lineTotal += parseFloat(itemPrice);
         }
         orderTotal += lineTotal;
+
+        let specialOfferText = "";
+        if (Object.keys(itemsOnSpecialOffer).includes(cartKey)) {
+            let itemDiscountRate = itemsOnSpecialOffer[cartKey].discountRate*100;
+            specialOfferText = itemDiscountRate + "% off on every " + itemsOnSpecialOffer[cartKey].onEveryNItems + " items like this!";
+        }
+
         $("#cartTableBody").append(`
             <tr>
-                <td>${cart[cartKey][0].name}<br/><a href='#' class='decreaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>-</a> ${cart[cartKey].length}<a href='#' class='increaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>+</a></td><td>$${lineTotal.toFixed(2)}</td>
+                <td>${cart[cartKey][0].name}<br/>
+                <small><i>${specialOfferText}</i></small><br/>
+                <a href='#' class='decreaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>-</a> ${cart[cartKey].length}<a href='#' class='increaseQuantity btn btn-sm btn-primary' data-code='${cartKey}'>+</a></td><td>$${lineTotal.toFixed(2)}</td>
             </tr>
         `);
     }
