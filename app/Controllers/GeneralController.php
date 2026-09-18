@@ -2,36 +2,32 @@
 
 namespace App\Controllers;
 
-use App\DB\DB;
-use App\DB\Storage\CatalogStorage;
-use App\Enum;
+use App\Models\Catalog;
 use App\ResponseHandler;
 use App\Templates;
 use App\Util;
 
 class GeneralController
 {
-    protected $connection;
-    protected $catalogStorage;
+    protected $catalogModel;
 
     public function __construct()
     {
-        $this->connection = new DB;
-        $this->catalogStorage = new CatalogStorage();
+        $this->catalogModel = new Catalog();
     }
 
     public function index()
     {
-        $products = $this->catalogStorage->getCatalog();
+        $products = $this->catalogModel->getCatalog();
 
         $formattedProducts = "";
         foreach ($products as $product) {
             $encodedProductData = json_encode($product);
             $formattedProducts .= "
             <p>
-            <b>$product->name</b><br/>
-            <small><i>$$product->price</i></small><br/>
-            <a href='#' class='btn btn-sm btn-primary product' data-toggle='modal' data-target='#modalExemplo'data-product-data='$encodedProductData'>Add To Cart</a>
+                <b>$product->name</b><br/>
+                <small><i>$$product->price</i></small><br/>
+                <a href='#' class='btn btn-sm btn-primary product' data-toggle='modal' data-target='#modalExemplo'data-product-data='$encodedProductData'>Add To Cart</a>
             <p/>";
         }
 

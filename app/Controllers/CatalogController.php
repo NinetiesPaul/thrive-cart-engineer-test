@@ -2,40 +2,29 @@
 
 namespace App\Controllers;
 
-use App\DB\DB;
-use App\DB\Storage\CatalogStorage;
-use App\Enum;
+use App\Models\Catalog;
 use App\ResponseHandler;
 use App\Templates;
 use App\Util;
 
 class CatalogController
 {
-    protected $connection;
-    protected $catalogStorage;
+    protected $catalogModel;
 
     public function __construct()
     {
-        $this->connection = new DB;
-        $this->catalogStorage = new CatalogStorage();
+        $this->catalogModel = new Catalog();
     }
 
-    public function getCatalogItems()
+    public function getCatalogItemsAjax()
     {
-        $products = $this->catalogStorage->getCatalog();
+        $products = $this->catalogModel->getCatalog();
 
-        ResponseHandler::response($products);
-    }
+        $productsData = [];
+        foreach ($products as $product) {
+            $productsData[$product->code] = $product;
+        }
 
-    public function getSpecialOffers()
-    {
-        $specialOffers = [
-            "R01" => [
-                "onEveryNItems" => 2,
-                "discountRate" => 0.5,
-            ]
-        ];
-
-        ResponseHandler::response($specialOffers);
+        ResponseHandler::response($productsData);
     }
 }
