@@ -12,5 +12,12 @@
         "psr-4": {
             "App\\": "app/"
         }
+    },
+    "config": {
+        "policy": {
+            "advisories": {
+                "block": false
+            }
+        }
     }
 }
