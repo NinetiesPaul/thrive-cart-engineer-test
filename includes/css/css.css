@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+}
+
+.container{
+    font-size: 13px;
+}
+
+strong{
+    font-size: 16px;
+}
+
+.mobile{
+    display: none;
+}
+
+.fotoBotao{
+    font-weight: bold;
+}
+
+.contatoBotao{
+    font-weight: normal;
+}
+
+.enderecoBotao{
+    font-weight: normal;
+}
